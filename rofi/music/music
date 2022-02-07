@@ -1,0 +1,216 @@
+#!/bin/sh
+
+# ┌┬┐┬ ┬┌─┐┬┌─┐
+# ││││ │└─┐││  
+# ┴ ┴└─┘└─┘┴└─┘
+
+# author	Niraj
+# github	niraj998
+
+# ┌─┐┌─┐┌┐┌┌─┐┬┌─┐┬ ┬┬─┐┌─┐┌┬┐┬┌─┐┌┐┌┌─┐
+# │  │ ││││├┤ ││ ┬│ │├┬┘├─┤ │ ││ ││││└─┐
+# └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘└─┘
+
+# Music Players
+# this is how It'll work:
+# if you uncomment more than one players this script will try to control players in reverse order. i.e. checks if strawberry is running and controls that if not then controls next available player like clementine if not looks for audacious and so on. reorder as per your liking.
+# if you don't see your player you can replace name of the your player in any one of line below, just make sure that player works with playerctl
+
+# uncomment your music players below, 
+Control="MPD"
+[ -n "$(pgrep spotify)" ] && Control="spotify"
+# [ -n "$(pgrep rhythmbox)" ] && Control="rhythmbox"
+# [ -n "$(pgrep audacious)" ] && Control="audacious"
+# [ -n "$(pgrep clementine)" ] && Control="clementine"
+# [ -n "$(pgrep strawberry)" ] && Control="strawberry"
+
+# Saves Cover here for rofi
+Cover=/tmp/cover.png
+# mpd music directory (to get cover)
+mpddir=~/Music
+# if cover not found in metadata use this instead
+bkpCover=~/.config/rofi/music/music.jpg
+
+# Save Lyrics here 
+lyricsdir=/tmp/lyrics
+# for ncmpcpp and echo lyrics
+terminal=kitty
+
+# ┌─┐┬  ┌─┐┬ ┬┌─┐┬─┐┌─┐┌┬┐┬    ┌─┐┌─┐┬─┐┬┌─┐┌┬┐┌─┐
+# ├─┘│  ├─┤└┬┘├┤ ├┬┘│   │ │    └─┐│  ├┬┘│├─┘ │ └─┐
+# ┴  ┴─┘┴ ┴ ┴ └─┘┴└─└─┘ ┴ ┴─┘  └─┘└─┘┴└─┴┴   ┴ └─┘
+
+########################## Title ##########################
+title() {
+title=$(playerctl --player=$Control metadata --format {{title}} | cut -c1-35)
+[ -z "$title" ] && title="Play Something"
+}
+
+########################## Artist ##########################
+artist() {
+artist=$(playerctl --player=$Control metadata --format {{artist}} | cut -c1-35)
+[ -z "$artist" ] && artist="Artist"
+}
+
+########################## Album ##########################
+album() {
+album=$(playerctl --player=$Control metadata --format {{album}} | cut -c1-35)
+[ -z "$album" ] && album="Album"
+}
+
+########################## Status ##########################
+status() {
+status=$(playerctl --player=$Control status)
+[ -z "$status" ] && status="Stopped"
+}
+
+########################## trackNumber ##########################
+playlist() {
+playlist=$(playerctl --player=$Control metadata xesam:trackNumber)
+[ -z "$playlist" ] && playlist="0"
+}
+
+########################## Cover ##########################
+cover() {
+albumart="$(playerctl --player=$Control metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g')"
+[ $(playerctl --player=$Control metadata mpris:artUrl) ] && curl -s "$albumart" --output $Cover || cp $bkpCover $Cover 
+}
+
+########################## Statusicon ##########################
+statusicon() {
+icon="󰙦"
+[ $(playerctl --player=$Control status) = "Playing" ] && icon="󰏥"
+[ $(playerctl --player=$Control status) = "Paused" ] && icon="󰐌"
+}
+
+########################## Lyrics ##########################
+lyrics() {
+rm /tmp/lyrics
+Title=$(playerctl --player=$Control metadata --format {{title}})
+Artist=$(playerctl --player=$Control metadata --format {{artist}})
+URL="https://api.lyrics.ovh/v1/$Artist/$Title"
+curl -s "$( echo "$URL" | sed s/" "/%20/g | sed s/"&"/%26/g | sed s/,/%2C/g | sed s/-/%2D/g)" | jq '.lyrics' > /tmp/lyrics
+[ -z $(cat /tmp/lyrics) ] &&  curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$Artist" --data-urlencode "title=$Title" > /tmp/lyrics # there were some issue with api server so this line uses other api if 1st failed
+[ "$(cat /tmp/lyrics)" = "null" ] && curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$Artist" --data-urlencode "title=$Title" > /tmp/lyrics
+$terminal -e ~/.config/rofi/music/lyrics
+}
+
+# ┌┬┐┌─┐┌┬┐  ┌─┐┌─┐┬─┐┬┌─┐┌┬┐┌─┐
+# │││├─┘ ││  └─┐│  ├┬┘│├─┘ │ └─┐
+# ┴ ┴┴  ─┴┘  └─┘└─┘┴└─┴┴   ┴ └─┘
+
+########################## Title ##########################
+mpctitle() {
+title=$(mpc -f %title% current | cut -c1-35)
+[ -z "$title" ] && title="Play Something"
+}
+
+########################## Artist ##########################
+mpcartist() {
+artist=$(mpc -f %artist% current | cut -c1-35)
+[ -z "$artist" ] && artist="Artist"
+}
+
+########################## Album ##########################
+mpcalbum() {
+album=$(mpc -f %album% current | cut -c1-35)
+[ -z "$album" ] && album="Album" 
+}
+
+########################## Cover ##########################
+mpccover() {
+ffmpeg -i "$mpddir"/"$(mpc current -f %file%)" -vf scale=500:500 "${Cover}" -y || cp $bkpCover $Cover
+}
+
+########################## Icon ##########################
+mpcicon() {
+status=$(mpc status | head -2 | tail -1 | cut -c2-7 )
+icon="󰙦"
+[ "$status" = "playin" ] && icon="󰏥"
+[ "$status" = "paused" ] && icon="󰐌"
+}
+
+########################## Status ##########################
+mpcstatus() {
+stat=$(mpc status | head -2 | tail -1 | cut -c2-7 )
+status="Stopped"
+[ "$stat" = "playin" ] && status="Playing"
+[ "$stat" = "paused" ] && status="Paused"
+}
+
+########################## Playlist ##########################
+mpcsongpos() {
+playlist=$(mpc status %songpos%/%length%)
+[ -z "$playlist" ] && playlist="0/0"
+}
+
+########################## Lyrics ##########################
+mpclyrics() {
+rm /tmp/lyrics
+Title=$(mpc -f %title% current)
+Artist=$(mpc -f %artist% current)
+URL="https://api.lyrics.ovh/v1/$Artist/$Title"
+curl -s "$( echo "$URL" | sed s/" "/%20/g | sed s/"&"/%26/g | sed s/,/%2C/g | sed s/-/%2D/g)" | jq '.lyrics' > /tmp/lyrics
+[ -z $(cat /tmp/lyrics) ] &&  curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$Artist" --data-urlencode "title=$Title" > /tmp/lyrics
+[ "$(cat /tmp/lyrics)" = "null" ] && curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$Artist" --data-urlencode "title=$Title" > /tmp/lyrics
+$terminal -e ~/.config/rofi/music/lyrics
+}
+
+#### checks what player to control and runs playerctl / mpd scripts
+
+case $Control in
+	MPD)
+		mpccover
+		mpctitle
+		mpcartist
+		mpcalbum
+		mpcicon
+		mpcstatus
+		player="󰎆"
+		mpcsongpos
+    ;;
+	*)
+		cover
+		title
+		artist
+		album
+		statusicon
+		status
+		player="󰓇"
+		playlist
+
+esac 2>/dev/null
+
+## Rofi stuff
+
+previous="󰒮"
+next="󰒭"
+lyrics="󰈚"
+
+options="$player\n$previous\n$icon\n$next\n$lyrics" 
+rofi=$(printf $options | rofi -config ~/.config/rofi/music/config.rasi -dmenu -i -selected-row 2 -hover-select -p "$status: ($playlist)
+$title 
+$album
+$artist")
+
+## actions
+case $Control in
+	MPD)
+	case $rofi in 
+		$player)	$terminal -e ncmpcpp			;;
+		$next)		mpc -q next				;;
+		$icon)		mpc -q toggle				;;
+		$previous)	mpc -q prev				;;
+		$lyrics)	mpclyrics 				;;
+	esac
+	;;
+	*)
+	case $rofi in 
+		$player)	wmctrl -a $Control || $Control		;;
+		$next)		playerctl --player=$Control next	;;
+		$icon)		playerctl --player=$Control play-pause	;;
+		$previous)	playerctl --player=$Control previous	;;
+		$lyrics)	lyrics					;;
+	esac
+esac 2>/dev/null
+

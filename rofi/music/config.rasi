@@ -1,0 +1,57 @@
+
+@theme "/dev/null"
+
+* {
+  bg:			#0C0F09;
+  fg:			#05E289;
+  button:		#1B1E25;
+  background-color:	@bg;
+  text-color:		@fg; 
+}
+
+window {
+  transparency:		"real";
+  width:		500px;
+  height:		525px;
+}
+
+prompt {
+  padding:		15px;
+  font:			"AlegreyaSans 18";
+  border-radius:	10px;
+  expand: false;
+}
+
+inputbar {
+  children:		[ prompt ];
+  background-image:	url("/tmp/cover.png");
+  expand:		false;
+  border-radius:	8px 8px 0px 0px;
+  padding:		280px 15px 15px 15px;
+}
+
+listview {
+  cycle:		true;
+  layout:		horizontal;
+  padding:		10px 10px 10px 10px;
+}
+
+mainbox { children: [ inputbar, listview ]; }
+
+element {
+  padding:		0px 12px 0px 12px;
+  border-radius:	8px;
+}
+
+element-text {
+  margin:		10px 7px 10px 6px;
+  padding:		5px 5px 5px 5px;
+  font:			"Material Design Icon Desktop 35";
+  background-color:	inherit;
+  text-color:		inherit; 
+}
+element selected {
+  background-color:	@fg;
+  text-color:		@bg;
+}
+
