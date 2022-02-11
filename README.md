@@ -27,6 +27,7 @@ $ mkdir -pv ~/.config/rofibkp
 $ mv ~/.config/rofi ~/.config/rofibkp
 ```
 Install fonts (Choose any one you like)
+Note: There are 2-3 versions of Material design fonts. Just make sure to only have the one I've put in fonts folder. 
   - System-wide
 ```
 $ sudo cp -r ./fonts /usr/share/fonts/
