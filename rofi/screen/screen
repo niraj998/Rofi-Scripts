@@ -17,11 +17,14 @@ icon=~/.config/rofi/screen/screen.png
 roficonfig=~/.config/rofi/screenshot/config.rasi
 
 refresh() {
-# Add your script to reset wallpaper 
-# Add your script to reload bar
+# Add your script to reset wallpaper and bar
 
+# Or Restart window manager 
+# For Awesome
+# Awesome WM
+# echo 'awesome.restart()' | awesome-client
 
-
+# For BSPWM
 # refershing bspwm will do if you're using bspwm
 # bspc wm -r
 }
