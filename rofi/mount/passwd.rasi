@@ -1,5 +1,3 @@
-/************************************************/
-
 configuration {
   font:			"AlegreyaSans Bold 16";
   sort:			true;
@@ -7,42 +5,31 @@ configuration {
   disable-history:	false;
   scroll-method:	0;
   window-thumbnail:	true;
-
-filebrowser {
-  directories-first:	true;
-  sorting-method:	"name";
-  }
 }
-
-/************************************************/
 
 @theme "/dev/null"
 
-/************************************************/
-
 * {
-  background:		#0C0F09;
-  foreground:		#05E289;
+  bg:		#0C0F09;
+  fg:		#05E289;
+  bgAlt: #1B1E25;
   button:		#05E289;
-  background-color:	@background;
-  text-color:		@foreground;
+  background-color:	@bg;
+  text-color:		@fg;
 }
 
-/************************************************/
+@import "../Themes/style.rasi"
 
 mainbox { children: [ inputbar, listview ]; }
 
-/************************************************/
-
 window {
   transparency:		"real";
-  width:		600px;
+  width:		400px;
   border:		15px 15px 15px 15px;
   border-radius:	15px;
-  height:		500px;
+  height:		200px;
+  border-color: @bg;
 }
-
-/************************************************/
 
 inputbar {
   children:		[ prompt, entry ];
@@ -52,21 +39,18 @@ inputbar {
 
 prompt { 
   enabled: true; 
-  background-color:	#0C0F09;
+  background-color:	@bg;
   padding:		10px;
   border-radius:	15px;
-  margin:		0px 20px 0px 0px;
 }
 
 entry {
-  background-color:	#1B1E25;
+  background-color:	@bgAlt;
   placeholder:		"Password";
   expand:		true;
   padding:		10px;
   border-radius:	15px;
 }
-
-/************************************************/
 
 listview {
   columns:		2;
@@ -80,7 +64,7 @@ element {
   orientation:		vertical;
   margin:		5px 10px 5px 10px;
   border-radius:	10px;
-  background-color:	#1B1E25;
+  background-color:	@bgAlt;
 }
 
 element-text {
@@ -91,10 +75,8 @@ element-text {
 }
 
 element selected {
-  background-color:	@button;
-  text-color:		#1B1E25;
+  background-color:	@fg;
+  text-color:		@bgAlt;
   border-radius:	10px;
 }
-
-/************************************************/
 

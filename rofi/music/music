@@ -27,7 +27,7 @@ Control="MPD"
 # Saves Cover here for rofi
 Cover=/tmp/cover.png
 # mpd music directory (to get cover)
-mpddir=~/Music
+mpddir=~/media/Music
 # if cover not found in metadata use this instead
 bkpCover=~/.config/rofi/music/music.jpg
 
@@ -35,6 +35,12 @@ bkpCover=~/.config/rofi/music/music.jpg
 lyricsdir=/tmp/lyrics
 # for ncmpcpp and echo lyrics
 terminal=kitty
+
+# Themes
+
+roficonfig="$HOME/.config/rofi/music/config.rasi"
+
+
 
 # ┌─┐┬  ┌─┐┬ ┬┌─┐┬─┐┌─┐┌┬┐┬    ┌─┐┌─┐┬─┐┬┌─┐┌┬┐┌─┐
 # ├─┘│  ├─┤└┬┘├┤ ├┬┘│   │ │    └─┐│  ├┬┘│├─┘ │ └─┐
@@ -78,9 +84,9 @@ albumart="$(playerctl --player=$Control metadata mpris:artUrl | sed -e 's/open.s
 
 ########################## Statusicon ##########################
 statusicon() {
-icon="󰙦"
-[ $(playerctl --player=$Control status) = "Playing" ] && icon="󰏥"
-[ $(playerctl --player=$Control status) = "Paused" ] && icon="󰐌"
+icon="ﭥ"
+[ $(playerctl --player=$Control status) = "Playing" ] && icon=""
+[ $(playerctl --player=$Control status) = "Paused" ] && icon="喇"
 }
 
 ########################## Lyrics ##########################
@@ -125,9 +131,9 @@ ffmpeg -i "$mpddir"/"$(mpc current -f %file%)" -vf scale=500:500 "${Cover}" -y |
 ########################## Icon ##########################
 mpcicon() {
 status=$(mpc status | head -2 | tail -1 | cut -c2-7 )
-icon="󰙦"
-[ "$status" = "playin" ] && icon="󰏥"
-[ "$status" = "paused" ] && icon="󰐌"
+icon="ﭥ"
+[ "$status" = "playin" ] && icon=""
+[ "$status" = "paused" ] && icon="喇"
 }
 
 ########################## Status ##########################
@@ -166,7 +172,7 @@ case $Control in
 		mpcalbum
 		mpcicon
 		mpcstatus
-		player="󰎆"
+		player=""
 		mpcsongpos
     ;;
 	*)
@@ -176,19 +182,19 @@ case $Control in
 		album
 		statusicon
 		status
-		player="󰓇"
+		player=""
 		playlist
 
 esac 2>/dev/null
 
 ## Rofi stuff
 
-previous="󰒮"
-next="󰒭"
-lyrics="󰈚"
+previous="玲"
+next="怜"
+lyrics=""
 
 options="$player\n$previous\n$icon\n$next\n$lyrics" 
-rofi=$(printf $options | rofi -config ~/.config/rofi/music/config.rasi -dmenu -i -selected-row 2 -hover-select -p "$status: ($playlist)
+rofi=$(printf $options | rofi -config $roficonfig -dmenu -i -selected-row 2 -hover-select -p "$status: ($playlist)
 $title 
 $album
 $artist")

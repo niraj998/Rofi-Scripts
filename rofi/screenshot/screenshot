@@ -12,7 +12,7 @@
 # └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘└─┘
 
 # Save Screenshots here
-screenshotdir=~/Pictures/Screenshots
+screenshotdir=~/media/Pictures/Screenshots
 # file name
 file=$screenshotdir/$(date '+%y%m%d-%H%M-%S').png
 # icon for notification
@@ -26,11 +26,11 @@ roficonfig=~/.config/rofi/screenshot/config.rasi
 # ├┬┘│ │├┤ │
 # ┴└─└─┘└  ┴
 
-area="󰆞"
-cwin="󰆠"
-full="󰆟"
-copy="󰆏"
-save="󰆓"
+area=""
+cwin=""
+full=""
+copy=""
+save=""
 
 rofiopt="$area\n$cwin\n$full"
 rofi=$(printf "$rofiopt" | rofi -config $roficonfig -dmenu -i )

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# ┌┬┐┬ ┬┌─┐┬    ┌─┐┌─┐┬─┐┌─┐┌─┐┌┐┌
-#  │││ │├─┤│    └─┐│  ├┬┘├┤ ├┤ │││
-# ─┴┘└─┘┴ ┴┴─┘  └─┘└─┘┴└─└─┘└─┘┘└┘
+# ┌─┐┌─┐┬─┐┌─┐┌─┐┌┐┌┌─┐┬ ┬┌─┐┌┬┐
+# └─┐│  ├┬┘├┤ ├┤ │││└─┐├─┤│ │ │ 
+# └─┘└─┘┴└─└─┘└─┘┘└┘└─┘┴ ┴└─┘ ┴ 
 
 # author	Niraj
 # github	niraj998
@@ -14,24 +14,7 @@
 # icon for notification
 icon=~/.config/rofi/screen/screen.png
 # rofi config
-roficonfig=~/.config/rofi/screenshot/config.rasi
-
-refresh() {
-# Add your script to reset wallpaper and bar
-
-# Or Restart window manager 
-# For Awesome
-# Awesome WM
-# echo 'awesome.restart()' | awesome-client
-
-# For BSPWM
-# refershing bspwm will do if you're using bspwm
-# bspc wm -r
-}
-
-
-
-
+roficonfig=~/.config/rofi/screen/config.rasi
 
 # ┬─┐┌─┐┌─┐┬
 # ├┬┘│ │├┤ │
@@ -40,31 +23,31 @@ refresh() {
 screen1=$(xrandr -q | grep "connected" | awk '/ connected/ {print $1}' | head -n 1)
 screen2=$(xrandr -q | grep "connected" | awk '/ connected/ {print $1}' | tail -n 1)
 
-Laptop="󰌢"
-Monitor="󰍹"
-Dualscreen="󰍺"
+Laptop=""
+Monitor=""
+Dualscreen=""
 
 rofiopt="$Laptop\n$Monitor\n$Dualscreen"
 rofi=$(printf "$rofiopt" | rofi -config $roficonfig -dmenu -i )
 [ -z "$rofi" ] && exit
 
-[ "$screen1" = "$screen2" ] && notify-send -i "$icon" "Second Screen is not connected" && exit
+[ "$screen1" = "$screen2" ] && notify-send -i "$icon" "Sceond Screen is not connected" && exit
 
 case $rofi in 
 	$Laptop)
 	xrandr --output $screen1 --auto
 	xrandr --output $screen2 --off
-  refresh
-  ;;
+	bspc wm -r
+	;;
 
 	$Monitor)
 	xrandr --output $screen2 --auto
 	xrandr --output $screen1 --off
-  refresh
-  ;;
+	bspc wm -r
+	;;
 
   $Dualscreen)
 	xrandr --output $screen1 --auto
 	xrandr --output $screen2 --right-of $screen1 --auto
-  refresh
+	bspc wm -r
 esac

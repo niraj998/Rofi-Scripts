@@ -9,6 +9,8 @@
   text-color:		@fg; 
 }
 
+@import "../Themes/style.rasi"
+
 window {
   transparency:		"real";
   width:		500px;
@@ -17,7 +19,6 @@ window {
 
 prompt {
   padding:		15px;
-  font:			"AlegreyaSans 18";
   border-radius:	10px;
   expand: false;
 }
@@ -27,7 +28,7 @@ inputbar {
   background-image:	url("/tmp/cover.png");
   expand:		false;
   border-radius:	8px 8px 0px 0px;
-  padding:		280px 15px 15px 15px;
+  padding:		290px 15px 15px 15px;
 }
 
 listview {
@@ -39,14 +40,14 @@ listview {
 mainbox { children: [ inputbar, listview ]; }
 
 element {
-  padding:		0px 12px 0px 12px;
+  padding:		0px 10px 0px 10px;
   border-radius:	8px;
 }
 
 element-text {
-  margin:		10px 7px 10px 6px;
-  padding:		5px 5px 5px 5px;
-  font:			"Material Design Icon Desktop 35";
+  margin:		5px 18px 5px 18px;
+  padding:		0px 0px 0px 0px;
+  font:			"FiraCode Nerd Font 40";
   background-color:	inherit;
   text-color:		inherit; 
 }

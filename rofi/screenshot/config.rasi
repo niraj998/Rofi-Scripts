@@ -4,10 +4,11 @@
 * {
   bg:			#0C0F09;
   fg:			#05E289;
-  button:		#1B1E25;
+  bgAlt:		#1B1E25;
   background-color:	@bg;
   text-color:		@fg; 
 }
+@import "../Themes/style.rasi"
 
 window {
   transparency:	"real";
@@ -26,21 +27,20 @@ listview {
     padding:    10px;
 }
 
-
 element {
   padding:		0px 0px 0px 0px;
   border-radius:	8px;
 }
 
 element-text {
-  margin:		10px 10px 10px 10px;
-  padding:		5px 5px 5px 5px;
-  font:			"Material Design Icon Desktop 35";
+  margin:		5px 8px 5px 12px;
+  padding:		4px 5px 4px 5px;
+  font:			"FiraCode Nerd Font 35";
   background-color:	inherit;
   text-color:		inherit; 
 }
 element selected {
-  background-color:	#05E289;
-  text-color:		#1B1E25;
+  background-color:	@fg;
+  text-color:		@bgAlt;
 }
 

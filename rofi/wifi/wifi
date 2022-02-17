@@ -12,11 +12,11 @@
 # ┴└─└─┘└  ┴  └─┘└─┘┘└┘└  ┴└─┘└─┘
 
 # rofi config without entry so to make select from available options only
-rofiprompt=~/.config/rofi/prompt.rasi
+rofiprompt=~/.config/rofi/wifi/prompt.rasi
 # normal rofi menu 
-rofidmenu=~/.config/rofi/dmenu.rasi
+rofidmenu=~/.config/rofi/wifi/dmenu.rasi
 # rofi config for password
-rofipass=~/.config/rofi/passwd.rasi
+rofipass=~/.config/rofi/wifi/passwd.rasi
 
 # ┌─┐┌┬┐┌─┐┌┬┐┬ ┬┌─┐
 # └─┐ │ ├─┤ │ │ │└─┐
@@ -59,10 +59,10 @@ fi
 # └─┘└─┘┘└┘┘└┘└─┘└─┘ ┴ 
 
 connections() {
-list=$(nmcli --fields "SECURITY,SSID" device wifi list | tail -n +2 | sed "s/  */ /g" | sed -E "s/WPA*.?/󰍁/g" | sed "s/^--/󰿇/g" | sed "s/󰍁 󰍁/󰍁/g")
+list=$(nmcli --fields "SECURITY,SSID" device wifi list | tail -n +2 | sed "s/  */ /g" | sed -E "s/WPA*.?//g" | sed "s/^--//g" | sed "s/ //g")
 networks=$(printf "$list" | rofi -config $rofiprompt -dmenu -i -hover-select -p "Select Wifi Network
 $status")
-wifi=$( echo "$networks" | sed "s/󰿇 //g" | sed "s/󰍁 //g" | xargs)
+wifi=$( echo "$networks" | sed "s/ //g" | sed "s/ //g" | xargs)
 [ -z "$networks" ] && exit
 nopass="No Password"
 pass=$(printf "$nopass\nCancel" | rofi -config $rofipass -dmenu -i -hover-select -password -p "Wifi Password")

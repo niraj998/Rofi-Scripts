@@ -7,7 +7,7 @@
 # └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘└─┘
 
 # rofi sconfig
-roficonfig=~/.config/rofi/prompt.rasi
+roficonfig=~/.config/rofi/mount/prompt.rasi
 # Always mount your phone here 
 mountpoint=$HOME/Cell
 [ -d "$mountpoint" ] || mkdir -pv "$mountpoint"

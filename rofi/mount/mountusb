@@ -7,8 +7,8 @@
 # └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘└─┘
 
 # Rofi Configs
-roficonfig=~/.config/rofi/dmenu.rasi
-rofiprompt=~/.config/rofi/prompt.rasi
+roficonfig=~/.config/rofi/mount/dmenu.rasi
+rofiprompt=~/.config/rofi/mount/prompt.rasi
 
 # Always mount every thing here or in it's subdirectories
 mountdir=/mnt

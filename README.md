@@ -55,10 +55,16 @@ $ cp -r ./rofi $HOME/.config
 ```
 Enjoy
 
+## How to
+- Launch scripts
+  - For Launcher run **`rofi -show drun`**
+  - For rest of things just run script inside respective folders.
+- Colorscheme/Theme
+  - All the Colors are coming from style.rasi file inside themes folder for all the rofi configs. Edit style file to change colors.
+  - You can find example colorschemes inside theme folders. you can refer that or run selector script to use them.
+
 
 ## More about scripts
-### For Launcher run **`rofi -show drun`**
-### Rest of the things have scripts in respective folders
 #### Music :
   - Requires wmctrl, mpc, playerctl, ffmpeg and jq packages.
 - mpd
@@ -89,6 +95,9 @@ Enjoy
 #### Android mounting :
   - Requires simple-mtpfs and fuse2.
   - it's Setup to mount devices in ~/Cell, you can give your own location in the script.
+
+#### Manage Dual Screens :
+  - add your own script to refresh wallpaper / bar or window manager in script. 
 
 ### Notes and Todo.
  - Adding more useful things, themes and colors.

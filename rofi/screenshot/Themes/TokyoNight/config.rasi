@@ -4,12 +4,10 @@
 * {
   bg:			#0C0F09;
   fg:			#05E289;
-  bgAlt:		#1B1E25;
+  button:		#1B1E25;
   background-color:	@bg;
   text-color:		@fg; 
 }
-
-@import "../Themes/style.rasi"
 
 window {
   transparency:	"real";
@@ -34,14 +32,14 @@ element {
 }
 
 element-text {
-  margin:		8px 8px 10px 12px;
-  padding:		5px 5px 5px 5px;
-  font:			"FiraCode Nerd Font 30";
+  margin:		5px 8px 5px 12px;
+  padding:		4px 5px 4px 5px;
+  font:			"FiraCode Nerd Font 35";
   background-color:	inherit;
   text-color:		inherit; 
 }
 element selected {
-  background-color:	@fg;
-  text-color:	@bgAlt;
+  background-color:	#05E289;
+  text-color:		#1B1E25;
 }
 
