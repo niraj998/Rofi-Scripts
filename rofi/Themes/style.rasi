@@ -2,7 +2,7 @@
 * {
 bg: #1E222A;
 bgAlt: #252931;
-fg: #EBCB8B;
+fg: #61AFEF;
 button: #252931;
 background-color: @bg;
 text-color: @fg;

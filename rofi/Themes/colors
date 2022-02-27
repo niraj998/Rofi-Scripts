@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 uifont="FiraCode Nerd Font 13"
 
@@ -7,8 +7,9 @@ help() {
 Run these script to change theme for rofi.
 These script works along with my rofi configs.
 
-run colors [options]
-    to change colors.
+run,
+  colors [options]
+      to change colors.
 
 options:
   nordblue
