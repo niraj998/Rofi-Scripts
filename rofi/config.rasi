@@ -19,9 +19,7 @@ filebrowser {
   }
 }
 
-
 @theme "/dev/null"
-
 
 * {
   bg:		#0C0F09;
@@ -36,7 +34,6 @@ filebrowser {
 
 mainbox { children: [ mode-switcher, inputbar, listview ]; }
 
-
 window {
   transparency:		"real";
   width:		650px;
@@ -45,7 +42,6 @@ window {
   border: 12px;
   border-color: @bg;
 }
-
 
 inputbar {
   children:		[ entry ];
@@ -67,7 +63,6 @@ entry {
   padding:		15px;
   border-radius:	15px;
 }
-
 
 listview {
   columns:		2;
@@ -96,7 +91,6 @@ element selected {
   text-color:		@bgAlt;
   border-radius:	10px;
 }
-
 
 mode-switcher {
   spacing:		2px;

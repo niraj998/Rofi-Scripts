@@ -13,9 +13,8 @@ rofiprompt=~/.config/rofi/mount/prompt.rasi
 # Always mount every thing here or in it's subdirectories
 mountdir=/mnt
 
-# uncomment this line if you already have askpass setuped, if you're using askpass this way don't use this script in terminal it'll echo your password. use it with shortcuts instead.
-export SUDO_ASKPASS=~/.config/rofi/mount/askpass 
-
+# uncomment this line if you already have askpass setuped.
+[ -z "$SUDO_ASKPASS" ] && export SUDO_ASKPASS=~/.config/rofi/mount/askpass 
 
 # ┌┬┐┌─┐┬ ┬┌┐┌┌┬┐  ┌─┐┌─┐┬─┐┬┌─┐┌┬┐
 # ││││ ││ ││││ │   └─┐│  ├┬┘│├─┘ │ 

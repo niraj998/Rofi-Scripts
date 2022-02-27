@@ -7,18 +7,14 @@
 # author	Niraj
 # github	niraj998
 
-# ┌─┐┌─┐┌┐┌┌─┐┬┌─┐┬ ┬┬─┐┌─┐┌┬┐┬┌─┐┌┐┌┌─┐
-# │  │ ││││├┤ ││ ┬│ │├┬┘├─┤ │ ││ ││││└─┐
-# └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘└─┘
+# ┬─┐┌─┐┌─┐┬
+# ├┬┘│ │├┤ │
+# ┴└─└─┘└  ┴
 
 # icon for notification
 icon=~/.config/rofi/screen/screen.png
 # rofi config
 roficonfig=~/.config/rofi/screen/config.rasi
-
-# ┬─┐┌─┐┌─┐┬
-# ├┬┘│ │├┤ │
-# ┴└─└─┘└  ┴
 
 screen1=$(xrandr -q | grep "connected" | awk '/ connected/ {print $1}' | head -n 1)
 screen2=$(xrandr -q | grep "connected" | awk '/ connected/ {print $1}' | tail -n 1)
@@ -26,28 +22,35 @@ screen2=$(xrandr -q | grep "connected" | awk '/ connected/ {print $1}' | tail -n
 Laptop=""
 Monitor=""
 Dualscreen=""
-
 rofiopt="$Laptop\n$Monitor\n$Dualscreen"
+
 rofi=$(printf "$rofiopt" | rofi -config $roficonfig -dmenu -i )
-[ -z "$rofi" ] && exit
 
 [ "$screen1" = "$screen2" ] && notify-send -i "$icon" "Sceond Screen is not connected" && exit
+[ -z "$rofi" ] && exit
+
+reload() {
+# add script to reset wallpaper and bar.
+# assuming you're setting those with wm, reloading works too.
+  [ -n $(pgrep bspwm) ] && bspc wm -r
+  [ -n $(pgrep awesome) ] && echo 'awesome.restart()' | awesome-client
+}
 
 case $rofi in 
 	$Laptop)
 	xrandr --output $screen1 --auto
 	xrandr --output $screen2 --off
-	bspc wm -r
+	reload
 	;;
 
 	$Monitor)
 	xrandr --output $screen2 --auto
 	xrandr --output $screen1 --off
-	bspc wm -r
+	reload
 	;;
 
   $Dualscreen)
 	xrandr --output $screen1 --auto
 	xrandr --output $screen2 --right-of $screen1 --auto
-	bspc wm -r
+	reload
 esac
