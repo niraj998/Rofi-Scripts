@@ -61,8 +61,6 @@ Enjoy
   - For rest of things just run script inside respective folders.
 - Colorscheme/Theme
   - All the Colors are coming from style.rasi file inside themes folder for all the rofi configs. Edit style file to change colors.
-  - You can find example colorschemes inside theme folders. you can refer that or run selector script to use them.
-
 
 ## More about scripts
 #### Music :
